@@ -149,4 +149,33 @@ body {
     text-align: center;
     margin-top: 40px;
   }
+
+  .busca-servico {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   
+  .busca-servico input {
+    padding: 12px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .busca-servico button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .busca-servico button:hover {
+    background-color: #0056b3;
+  }
