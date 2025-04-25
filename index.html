@@ -52,23 +52,18 @@
     </div>
   </section>
 
-  <section class="profissionais">
+  <section class="principais-servicos">
     <div class="container">
-      <h3>Profissionais em Destaque</h3>
-      <div class="grid">
-        <div class="card">
-          <img src="img/profissional1.jpg" alt="João - Eletricista">
-          <h4>João Silva</h4>
-          <p>Eletricista</p>
-          <button>Ver Perfil</button>
+      <h2>Principais Serviços</h2>
+      <div class="carrossel">
+        <button class="prev">&#10094;</button>
+        <div class="carrossel-items">
+          <div class="item"><img src="https://via.placeholder.com/200x120?text=Contador"><p>Contador</p></div>
+          <div class="item"><img src="https://via.placeholder.com/200x120?text=Eletricista"><p>Eletricista</p></div>
+          <div class="item"><img src="https://via.placeholder.com/200x120?text=Encanador"><p>Encanador</p></div>
+          <div class="item"><img src="https://via.placeholder.com/200x120?text=Pintor"><p>Pintor</p></div>
         </div>
-        <div class="card">
-          <img src="img/profissional2.jpg" alt="Maria - Encanadora">
-          <h4>Maria Oliveira</h4>
-          <p>Encanadora</p>
-          <button>Ver Perfil</button>
-        </div>
-        <!-- Mais cards aqui -->
+        <button class="next">&#10095;</button>
       </div>
     </div>
   </section>
@@ -78,5 +73,50 @@
       <p>&copy; 2025 Serviços para Você</p>
     </div>
   </footer>
+
+  <script>
+    const carrossel = document.querySelector('.carrossel-items');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const itemWidth = 220;
+    let index = 0;
+  
+    const items = document.querySelectorAll('.carrossel-items .item');
+    const totalItems = items.length;
+  
+    // Clona os itens para simular o loop
+    items.forEach(item => {
+      const clone = item.cloneNode(true);
+      carrossel.appendChild(clone);
+    });
+  
+    function slide(direction) {
+      index += direction;
+  
+      if (index < 0) {
+        index = totalItems - 1;
+        carrossel.scrollLeft = index * itemWidth;
+      } else if (index >= totalItems * 2) {
+        index = 0;
+        carrossel.scrollLeft = 0;
+      }
+  
+      carrossel.scrollTo({
+        left: index * itemWidth,
+        behavior: 'smooth'
+      });
+    }
+  
+    nextBtn.addEventListener('click', () => slide(1));
+    prevBtn.addEventListener('click', () => slide(-1));
+  
+    let autoplay = setInterval(() => slide(1), 3000);
+  
+    carrossel.addEventListener('mouseenter', () => clearInterval(autoplay));
+    carrossel.addEventListener('mouseleave', () => {
+      autoplay = setInterval(() => slide(1), 3000);
+    });
+  </script>
+  
 </body>
 </html>
