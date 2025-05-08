@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Connect Work</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Connect Work</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="formulario">
+    <div class="form-box">
+      <h2>Login</h2>
+
+      <div class="toggle-buttons">
+        <button id="btn-login-cliente" class="active">Cliente</button>
+        <button id="btn-login-prestador">Prestador</button>
+      </div>
+
+      <form id="login-form">
+        <!-- CLIENTE -->
+        <div id="login-cliente">
+          <div class="form-group">
+            <label for="email-cliente-login">Email</label>
+            <div class="input-icon">
+              <i class="fa fa-envelope"></i>
+              <input type="email" id="email-cliente-login" name="email" placeholder="Seu email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="senha-cliente-login">Senha</label>
+            <div class="input-icon">
+              <i class="fa fa-lock"></i>
+              <input type="password" id="senha-cliente-login" name="senha" placeholder="Sua senha" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRESTADOR -->
+        <div id="login-prestador" class="hidden">
+          <div class="form-group">
+            <label for="email-prestador-login">Email</label>
+            <div class="input-icon">
+              <i class="fa fa-envelope"></i>
+              <input type="email" id="email-prestador-login" name="email" placeholder="Seu email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="senha-prestador-login">Senha</label>
+            <div class="input-icon">
+              <i class="fa fa-lock"></i>
+              <input type="password" id="senha-prestador-login" name="senha" placeholder="Sua senha" required>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-cadastro">Entrar</button>
+
+        <div style="text-align: center; margin-top: 15px;">
+          <a href="#" style="display: block; margin-bottom: 8px;">Esqueci minha senha</a>
+          <a href="cadastro.html">Novo por aqui? Cadastre-se</a>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Connect Work</p>
+    </div>
+  </footer>
+
+  <script>
+    const btnLoginCliente = document.getElementById('btn-login-cliente');
+    const btnLoginPrestador = document.getElementById('btn-login-prestador');
+    const loginCliente = document.getElementById('login-cliente');
+    const loginPrestador = document.getElementById('login-prestador');
+
+    btnLoginCliente.addEventListener('click', () => {
+      btnLoginCliente.classList.add('active');
+      btnLoginPrestador.classList.remove('active');
+      loginCliente.classList.remove('hidden');
+      loginPrestador.classList.add('hidden');
+    });
+
+    btnLoginPrestador.addEventListener('click', () => {
+      btnLoginPrestador.classList.add('active');
+      btnLoginCliente.classList.remove('active');
+      loginCliente.classList.add('hidden');
+      loginPrestador.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
