@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Cliente | Connect Work</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Connect Work</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="formulario">
+    <div class="form-box">
+      <h2>Meu Perfil</h2>
+
+      <form id="perfil-cliente-form">
+        <div class="foto-perfil">
+          <label for="foto-cliente">
+            <img id="preview-foto-cliente" src="https://via.placeholder.com/150" alt="Foto de perfil">
+            <p>Alterar foto</p>
+          </label>
+          <input type="file" id="foto-cliente" name="foto" accept="image/*" style="display: none;">
+        </div>
+
+        <div class="form-group">
+          <label for="nome-cliente">Nome</label>
+          <div class="input-icon">
+            <i class="fa fa-user"></i>
+            <input type="text" id="nome-cliente" name="nome" placeholder="Seu nome completo" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email-cliente">Email</label>
+          <div class="input-icon">
+            <i class="fa fa-envelope"></i>
+            <input type="email" id="email-cliente" name="email" placeholder="Seu email" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="telefone-cliente">Telefone</label>
+          <div class="input-icon">
+            <i class="fa fa-phone"></i>
+            <input type="tel" id="telefone-cliente" name="telefone" placeholder="(11) 99999-9999" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-cadastro">Salvar alterações</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Connect Work</p>
+    </div>
+  </footer>
+
+  <script>
+    const inputFotoCliente = document.getElementById('foto-cliente');
+    const previewFotoCliente = document.getElementById('preview-foto-cliente');
+
+    inputFotoCliente.addEventListener('change', function () {
+      const arquivo = inputFotoCliente.files[0];
+      if (arquivo) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewFotoCliente.src = e.target.result;
+        };
+        reader.readAsDataURL(arquivo);
+      }
+    });
+  </script>
+</body>
+</html>

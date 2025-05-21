@@ -55,7 +55,7 @@
             <label for="email-prestador-login">Email</label>
             <div class="input-icon">
               <i class="fa fa-envelope"></i>
-              <input type="email" id="email-prestador-login" name="email" placeholder="Seu email" required>
+              <input type="email" id="email-prestador-login" name="email" placeholder="Seu email" required disabled>
             </div>
           </div>
 
@@ -63,12 +63,12 @@
             <label for="senha-prestador-login">Senha</label>
             <div class="input-icon">
               <i class="fa fa-lock"></i>
-              <input type="password" id="senha-prestador-login" name="senha" placeholder="Sua senha" required>
+              <input type="password" id="senha-prestador-login" name="senha" placeholder="Sua senha" required disabled>
             </div>
           </div>
         </div>
 
-        <button type="submit" class="btn-cadastro">Entrar</button>
+        <button id="btn-entrar" type="submit" class="btn-cadastro">Entrar</button>
 
         <div style="text-align: center; margin-top: 15px;">
           <a href="#" style="display: block; margin-bottom: 8px;">Esqueci minha senha</a>
@@ -90,11 +90,20 @@
     const loginCliente = document.getElementById('login-cliente');
     const loginPrestador = document.getElementById('login-prestador');
 
+    function toggleInputs(container, disabled) {
+      const inputs = container.querySelectorAll("input, select, textarea");
+      inputs.forEach(input => {
+        input.disabled = disabled;
+      });
+    }
+
     btnLoginCliente.addEventListener('click', () => {
       btnLoginCliente.classList.add('active');
       btnLoginPrestador.classList.remove('active');
       loginCliente.classList.remove('hidden');
       loginPrestador.classList.add('hidden');
+      toggleInputs(loginCliente, false);
+      toggleInputs(loginPrestador, true);
     });
 
     btnLoginPrestador.addEventListener('click', () => {
@@ -102,7 +111,29 @@
       btnLoginCliente.classList.remove('active');
       loginCliente.classList.add('hidden');
       loginPrestador.classList.remove('hidden');
+      toggleInputs(loginCliente, true);
+      toggleInputs(loginPrestador, false);
     });
+
+    const form = document.getElementById('login-form');
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const isCliente = btnLoginCliente.classList.contains('active');
+        const isPrestador = btnLoginPrestador.classList.contains('active');
+
+        if (isCliente) {
+          localStorage.setItem('usuarioLogado', 'true');
+          localStorage.setItem('tipoUsuario', 'cliente');
+          window.location.href = "perfil_cliente.html";
+        } else if (isPrestador) {
+          localStorage.setItem('usuarioLogado', 'true');
+          localStorage.setItem('tipoUsuario', 'prestador');
+          window.location.href = "perfil_prestador.html";
+        }
+      });
+    }
   </script>
 </body>
 </html>

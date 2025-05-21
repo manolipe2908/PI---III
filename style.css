@@ -325,3 +325,34 @@ body {
   .hidden {
     display: none;
   }
+
+  .foto-perfil {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.foto-perfil img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #ccc;
+}
+
+.foto-perfil p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.menu-perfil {
+  margin-left: auto;
+  padding-left: 10px;
+}
+
+.menu-perfil a {
+  font-size: 20px;
+  color: #fff;
+}

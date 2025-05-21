@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connect Work</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -25,6 +26,13 @@
           <li><a href="#contato">Contato</a></li>
           <li><a href="cadastro.html">Cadastro</a></li>
           <li><a href="login.html">Login</a></li>
+
+          <!-- Ícone de perfil -->
+          <li class="menu-perfil">
+            <a href="login.html" id="perfil-link" title="Perfil">
+              <i class="fa fa-user-circle fa-lg"></i>
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -63,24 +71,25 @@
   </footer>
 
   <script>
+    // Carrossel
     const carrossel = document.querySelector('.carrossel-items');
     const prevBtn = document.querySelector('.prev');
     const nextBtn = document.querySelector('.next');
     const itemWidth = 220;
     let index = 0;
-  
+
     const items = document.querySelectorAll('.carrossel-items .item');
     const totalItems = items.length;
-  
+
     // Clona os itens para simular o loop
     items.forEach(item => {
       const clone = item.cloneNode(true);
       carrossel.appendChild(clone);
     });
-  
+
     function slide(direction) {
       index += direction;
-  
+
       if (index < 0) {
         index = totalItems - 1;
         carrossel.scrollLeft = index * itemWidth;
@@ -88,23 +97,37 @@
         index = 0;
         carrossel.scrollLeft = 0;
       }
-  
+
       carrossel.scrollTo({
         left: index * itemWidth,
         behavior: 'smooth'
       });
     }
-  
+
     nextBtn.addEventListener('click', () => slide(1));
     prevBtn.addEventListener('click', () => slide(-1));
-  
+
     let autoplay = setInterval(() => slide(1), 3000);
-  
+
     carrossel.addEventListener('mouseenter', () => clearInterval(autoplay));
     carrossel.addEventListener('mouseleave', () => {
       autoplay = setInterval(() => slide(1), 3000);
     });
+
+    // Redirecionamento do ícone de perfil com base no tipo de usuário
+    const perfilLink = document.getElementById('perfil-link');
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
+
+    if (usuarioLogado === 'true') {
+      if (tipoUsuario === 'cliente') {
+        perfilLink.href = "perfil_cliente.html";
+      } else if (tipoUsuario === 'prestador') {
+        perfilLink.href = "perfil_prestador.html";
+      }
+    } else {
+      perfilLink.href = "login.html";
+    }
   </script>
-  
 </body>
 </html>
