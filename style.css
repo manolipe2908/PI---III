@@ -356,3 +356,111 @@ body {
   font-size: 20px;
   color: #fff;
 }
+
+.perfil-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 30px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.dados-pessoais {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.portfolio-box {
+  flex: 2;
+  min-width: 400px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.portfolio-box h2,
+.dados-pessoais h2 {
+  margin-bottom: 20px;
+}
+
+.preview-imagens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.preview-imagens .miniatura {
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.perfil-info {
+  margin-top: 20px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.info-item strong {
+  display: inline-block;
+  width: 100px;
+}
+
+.info-item .texto {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.info-item .editar {
+  cursor: pointer;
+  color: #007bff;
+  margin-left: 5px;
+}
+
+.info-item .edicao {
+  margin-top: 10px;
+}
+
+.info-item input {
+  padding: 6px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  display: block;
+  width: 100%;
+  max-width: 300px;
+}
+
+.info-item button {
+  margin-right: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.info-item button.salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.info-item button.cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}

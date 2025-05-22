@@ -21,68 +21,75 @@
     </div>
   </header>
 
-  <section class="formulario">
-    <div class="form-box">
+  <main class="perfil-container">
+    <!-- Lado esquerdo -->
+    <section class="dados-pessoais">
       <h2>Meu Perfil</h2>
 
-      <form id="perfil-form">
-        <div class="foto-perfil">
-          <label for="foto">
-            <img id="preview-foto" src="https://via.placeholder.com/150" alt="Foto de perfil">
-            <p>Alterar foto</p>
-          </label>
-          <input type="file" id="foto" name="foto" accept="image/*" style="display: none;">
-        </div>
+      <div class="foto-perfil">
+        <label for="foto">
+          <img id="preview-foto" src="https://via.placeholder.com/150" alt="Foto de perfil">
+          <p>Alterar foto</p>
+        </label>
+        <input type="file" id="foto" name="foto" accept="image/*" style="display: none;">
+        <h3 id="nome-exibido">Nome do Usuário</h3>
+      </div>
 
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <div class="input-icon">
-            <i class="fa fa-user"></i>
-            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+      <div class="perfil-info">
+        <div class="info-item" data-campo="nome">
+          <strong>Nome:</strong>
+          <span class="texto" id="nome-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="text" id="input-nome">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <div class="input-icon">
-            <i class="fa fa-envelope"></i>
-            <input type="email" id="email" name="email" placeholder="Seu email" required>
+        <div class="info-item" data-campo="email">
+          <strong>Email:</strong>
+          <span class="texto" id="email-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="email" id="input-email">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="telefone">Telefone</label>
-          <div class="input-icon">
-            <i class="fa fa-phone"></i>
-            <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+        <div class="info-item" data-campo="telefone">
+          <strong>Telefone:</strong>
+          <span class="texto" id="telefone-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="tel" id="input-telefone">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
+      </div>
+    </section>
 
+    <!-- Portfólio -->
+    <section class="portfolio-box">
+      <h2>Portfólio</h2>
+      <form id="portfolio-form">
         <div class="form-group">
-          <label for="regiao">Região de Atuação</label>
-          <div class="input-icon">
-            <i class="fa fa-map"></i>
-            <input type="text" id="regiao" name="regiao" placeholder="Ex: Zona Leste, Campinas, etc.">
-          </div>
+          <label for="descricao-portfolio">Descrição do trabalho</label>
+          <textarea id="descricao-portfolio" rows="4" placeholder="Fale um pouco sobre sua experiência..."></textarea>
         </div>
 
         <div class="form-group">
-          <label for="servico">Tipo de Serviço</label>
-          <div class="input-icon">
-            <i class="fa fa-briefcase"></i>
-            <input type="text" id="servico" name="servico" placeholder="Ex: Eletricista, Encanador">
-          </div>
+          <label for="imagens-portfolio">Anexar imagens</label>
+          <input type="file" id="imagens-portfolio" accept="image/*" multiple>
+          <div id="preview-imagens" class="preview-imagens"></div>
         </div>
 
-        <div class="form-group">
-          <label for="descricao">Descrição</label>
-          <textarea id="descricao" name="descricao" rows="3" placeholder="Fale um pouco sobre seu trabalho..."></textarea>
-        </div>
-
-        <button type="submit" class="btn-cadastro">Salvar alterações</button>
+        <button type="submit" class="btn-cadastro">Salvar Portfólio</button>
       </form>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
     <div class="container">
@@ -91,17 +98,135 @@
   </footer>
 
   <script>
+    const previewFoto = document.getElementById('preview-foto');
     const inputFoto = document.getElementById('foto');
-    const preview = document.getElementById('preview-foto');
+    const nomeExibido = document.getElementById('nome-exibido');
 
     inputFoto.addEventListener('change', function () {
-      const arquivo = inputFoto.files[0];
-      if (arquivo) {
+      const file = inputFoto.files[0];
+      if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
-          preview.src = e.target.result;
+          previewFoto.src = e.target.result;
+          localStorage.setItem('fotoPerfil', e.target.result);
         };
-        reader.readAsDataURL(arquivo);
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function carregarPerfil() {
+      const perfil = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
+
+      document.getElementById('nome-texto').textContent = perfil.nome || '';
+      document.getElementById('email-texto').textContent = perfil.email || '';
+      document.getElementById('telefone-texto').textContent = perfil.telefone || '';
+      nomeExibido.textContent = perfil.nome || 'Nome do Usuário';
+
+      const foto = localStorage.getItem('fotoPerfil');
+      if (foto) previewFoto.src = foto;
+    }
+
+    document.querySelectorAll('.info-item').forEach(item => {
+      const campo = item.dataset.campo;
+      const editar = item.querySelector('.editar');
+      const salvar = item.querySelector('.salvar');
+      const cancelar = item.querySelector('.cancelar');
+      const texto = item.querySelector('.texto');
+      const input = item.querySelector('input');
+      const edicao = item.querySelector('.edicao');
+
+      editar.addEventListener('click', () => {
+        edicao.classList.remove('hidden');
+        input.value = texto.textContent;
+        texto.style.display = 'none';
+        editar.style.display = 'none';
+      });
+
+      cancelar.addEventListener('click', () => {
+        edicao.classList.add('hidden');
+        texto.style.display = 'inline';
+        editar.style.display = 'inline-block';
+      });
+
+      salvar.addEventListener('click', () => {
+        texto.textContent = input.value;
+        edicao.classList.add('hidden');
+        texto.style.display = 'inline';
+        editar.style.display = 'inline-block';
+
+        const perfil = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
+        perfil[campo] = input.value;
+        localStorage.setItem('perfilPrestador', JSON.stringify(perfil));
+
+        if (campo === 'nome') nomeExibido.textContent = input.value;
+      });
+    });
+
+    carregarPerfil();
+
+    // Portfólio
+    const formPortfolio = document.getElementById('portfolio-form');
+    const inputDescricao = document.getElementById('descricao-portfolio');
+    const inputImagens = document.getElementById('imagens-portfolio');
+    const previewImagens = document.getElementById('preview-imagens');
+
+    inputImagens.addEventListener('change', () => {
+      previewImagens.innerHTML = '';
+      const arquivos = inputImagens.files;
+
+      for (let i = 0; i < arquivos.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.classList.add('miniatura');
+          previewImagens.appendChild(img);
+        };
+        reader.readAsDataURL(arquivos[i]);
+      }
+    });
+
+    formPortfolio.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const descricao = inputDescricao.value;
+      const imagens = [];
+      const arquivos = inputImagens.files;
+      const promises = [];
+
+      for (let i = 0; i < arquivos.length; i++) {
+        const reader = new FileReader();
+        const p = new Promise((resolve) => {
+          reader.onload = function (e) {
+            imagens.push(e.target.result);
+            resolve();
+          };
+          reader.readAsDataURL(arquivos[i]);
+        });
+        promises.push(p);
+      }
+
+      Promise.all(promises).then(() => {
+        const portfolioData = { descricao, imagens };
+        localStorage.setItem('portfolioPrestador', JSON.stringify(portfolioData));
+        alert("Portfólio salvo com sucesso!");
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const salvo = localStorage.getItem('portfolioPrestador');
+      if (salvo) {
+        const data = JSON.parse(salvo);
+        inputDescricao.value = data.descricao || '';
+        if (data.imagens) {
+          previewImagens.innerHTML = '';
+          data.imagens.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.classList.add('miniatura');
+            previewImagens.appendChild(img);
+          });
+        }
       }
     });
   </script>
