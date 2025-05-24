@@ -897,3 +897,244 @@ input[type="file"] {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
+/* ======== Dropdown do Perfil ======== */
+.perfil-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.perfil-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+  min-width: 120px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+.perfil-menu a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.perfil-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+.perfil-dropdown:hover .perfil-menu {
+  display: block;
+}
+
+/* ======== Sugestões de Autocompletar ======== */
+.autocomplete-sugestoes {
+  position: absolute;
+  top: 48px;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 10;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.autocomplete-sugestoes div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.autocomplete-sugestoes div:hover {
+  background-color: #f0f0f0;
+}
+
+/* ======== Ajustes para o campo de busca ======== */
+.busca-servico {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.busca-servico input {
+  padding: 12px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.busca-servico button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.busca-servico button:hover {
+  background-color: #0056b3;
+}
+
+/* ======== Carrossel de Especialidades ======== */
+.carrossel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-width: 90%;
+  margin: auto;
+}
+
+.carrossel-items {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  gap: 20px;
+  scroll-behavior: smooth;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+.carrossel-items::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  min-width: 200px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.item img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.item h4 {
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.menu-perfil {
+  position: relative;
+  cursor: pointer;
+}
+
+.perfil-dropdown-trigger {
+  color: #fff;
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #444;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 120px;
+  z-index: 1000;
+  border-radius: 0 0 6px 6px;
+}
+
+.submenu li a {
+  display: block;
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+.submenu li a:hover {
+  background-color: #555;
+}
+
+.item h4:hover {
+  text-decoration: underline;
+}
+
+/* Dropdown do menu Perfil */
+.menu-perfil {
+  position: relative;
+  cursor: pointer;
+}
+
+.menu-perfil span {
+  color: #fff;
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+.menu-perfil .submenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #444;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+  min-width: 120px;
+  z-index: 999;
+}
+
+.menu-perfil .submenu li a {
+  color: #fff;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+}
+
+.menu-perfil .submenu li a:hover {
+  background-color: #555;
+}
+
+/* Sugestões de busca (autocomplete) */
+.sugestoes {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+}
+
+.sugestao {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sugestao:hover {
+  background-color: #f2f2f2;
+}
+
+/* Posicionamento para o campo de busca com autocomplete */
+.busca-servico {
+  position: relative;
+  max-width: 400px;
+  margin: auto;
+}
+
