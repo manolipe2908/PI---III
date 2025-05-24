@@ -1438,3 +1438,54 @@ input[type="file"] {
   color: white;
 }
 
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.toggle-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.toggle-buttons .active {
+  background-color: #0056b3;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.btn-cadastro {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.btn-cadastro:hover {
+  background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}

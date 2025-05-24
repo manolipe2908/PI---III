@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cadastro | Connect Work</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -14,208 +13,137 @@
       <nav>
         <ul class="menu">
           <li><a href="index.html">Início</a></li>
-          <li><a href="#">Contato</a></li>
+          <li><a href="busca.html">Serviços</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li class="menu-perfil">
+            <span id="perfil-menu" class="perfil-dropdown-trigger">Perfil</span>
+            <ul class="submenu hidden" id="submenu-perfil">
+              <li><a href="#" id="ir-para-perfil">Perfil</a></li>
+              <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <section class="formulario">
-    <div class="form-box">
-      <h2>Cadastre-se</h2>
+  <section class="form-box">
+    <h2>Cadastre-se</h2>
 
-      <div class="toggle-buttons">
-        <button id="btn-cliente" class="active">Sou Cliente</button>
-        <button id="btn-prestador">Sou Prestador</button>
-      </div>
+    <div class="toggle-buttons">
+      <button id="btn-cliente" class="active">Sou Cliente</button>
+      <button id="btn-prestador">Sou Prestador</button>
+    </div>
 
-      <form id="formulario">
-        <!-- Cliente -->
-        <div id="cliente-campos">
-          <div class="form-group">
-            <label for="nome-cliente">Nome</label>
-            <div class="input-icon">
-              <i class="fa fa-user"></i>
-              <input type="text" id="nome-cliente" name="nome" placeholder="Seu nome" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="email-cliente">Email</label>
-            <div class="input-icon">
-              <i class="fa fa-envelope"></i>
-              <input type="email" id="email-cliente" name="email" placeholder="Seu email" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="senha-cliente">Senha</label>
-            <div class="input-icon">
-              <i class="fa fa-lock"></i>
-              <input type="password" id="senha-cliente" name="senha" placeholder="Crie uma senha" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="confirmar-senha-cliente">Confirmar Senha</label>
-            <div class="input-icon">
-              <i class="fa fa-lock"></i>
-              <input type="password" id="confirmar-senha-cliente" name="confirmar_senha" placeholder="Repita a senha" required>
-            </div>
-            <small id="senha-feedback" style="color: red; display: none;">As senhas não coincidem</small>
-          </div>
-      
-          <div class="form-group">
-            <label for="telefone-cliente">Telefone</label>
-            <div class="input-icon">
-              <i class="fa fa-phone"></i>
-              <input type="tel" id="telefone-cliente" name="telefone" placeholder="(11) 99999-9999" required>
-            </div>
-          </div>
-        </div>
-      
-        <!-- Prestador -->
-        <div id="prestador-campos" class="hidden">
-          <div class="form-group">
-            <label for="nome-prestador">Nome</label>
-            <div class="input-icon">
-              <i class="fa fa-user"></i>
-              <input type="text" id="nome-prestador" name="nome" placeholder="Seu nome" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="email-prestador">Email</label>
-            <div class="input-icon">
-              <i class="fa fa-envelope"></i>
-              <input type="email" id="email-prestador" name="email" placeholder="Seu email" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="senha-prestador">Senha</label>
-            <div class="input-icon">
-              <i class="fa fa-lock"></i>
-              <input type="password" id="senha-prestador" name="senha" placeholder="Crie uma senha" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="confirmar-senha-prestador">Confirmar Senha</label>
-            <div class="input-icon">
-              <i class="fa fa-lock"></i>
-              <input type="password" id="confirmar-senha-prestador" name="confirmar_senha" placeholder="Repita a senha" required>
-            </div>
-            <small id="senha-feedback-prestador" style="color: red; display: none;">As senhas não coincidem</small>
-          </div>
-      
-          <div class="form-group">
-            <label for="telefone-prestador">Telefone</label>
-            <div class="input-icon">
-              <i class="fa fa-phone"></i>
-              <input type="tel" id="telefone-prestador" name="telefone" placeholder="(11) 99999-9999" required>
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="regiao">Região de Atuação</label>
-            <div class="input-icon">
-              <i class="fa fa-map"></i>
-              <input type="text" id="regiao" name="regiao" placeholder="Ex: Zona Leste, Campinas, etc.">
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="servico">Tipo de Serviço</label>
-            <div class="input-icon">
-              <i class="fa fa-briefcase"></i>
-              <input type="text" id="servico" name="servico" placeholder="Ex: Eletricista, Encanador">
-            </div>
-          </div>
-      
-          <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea id="descricao" name="descricao" rows="3" placeholder="Descreva o serviço..."></textarea>
-          </div>
-        </div>
-      
-        <button type="submit" class="btn-cadastro">Cadastrar</button>
-      </form>
+    <!-- Formulário Cliente -->
+    <form id="form-cliente" class="formulario">
+      <input type="text" id="nome-cliente" placeholder="Nome" required>
+      <input type="email" id="email-cliente" placeholder="Email" required>
+      <input type="password" id="senha-cliente" placeholder="Senha" required>
+      <input type="password" id="confirmar-senha-cliente" placeholder="Confirmar Senha" required>
+      <input type="tel" id="telefone-cliente" placeholder="Telefone" required>
+      <a href="login.html" class="btn-cadastro">Cadastrar</a>
+    </form>
+
+    <!-- Formulário Prestador -->
+    <form id="form-prestador" class="formulario hidden">
+      <input type="text" id="nome-prestador" placeholder="Nome" required>
+      <input type="email" id="email-prestador" placeholder="Email" required>
+      <input type="password" id="senha-prestador" placeholder="Senha" required>
+      <input type="password" id="confirmar-senha-prestador" placeholder="Confirmar Senha" required>
+      <input type="tel" id="telefone-prestador" placeholder="Telefone" required>
+      <input type="text" id="regiao" placeholder="Região de Atuação">
+      <input type="text" id="servico" placeholder="Tipo de Serviço">
+      <textarea id="descricao" placeholder="Descrição do Serviço"></textarea>
+      <a href="login.html" class="btn-cadastro">Cadastrar</a>
+    </form>
   </section>
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Connect Work</p>
-    </div>
-  </footer>
-
   <script>
-    // Alternância de abas
-  const btnCliente = document.getElementById('btn-cliente');
-  const btnPrestador = document.getElementById('btn-prestador');
-  const clienteCampos = document.getElementById('cliente-campos');
-  const prestadorCampos = document.getElementById('prestador-campos');
+    const btnCliente = document.getElementById('btn-cliente');
+    const btnPrestador = document.getElementById('btn-prestador');
+    const formCliente = document.getElementById('form-cliente');
+    const formPrestador = document.getElementById('form-prestador');
 
-  btnCliente.addEventListener('click', () => {
-    btnCliente.classList.add('active');
-    btnPrestador.classList.remove('active');
-    clienteCampos.classList.remove('hidden');
-    prestadorCampos.classList.add('hidden');
-  });
+    btnCliente.addEventListener('click', () => {
+      btnCliente.classList.add('active');
+      btnPrestador.classList.remove('active');
+      formCliente.classList.remove('hidden');
+      formPrestador.classList.add('hidden');
+    });
 
-  btnPrestador.addEventListener('click', () => {
-    btnPrestador.classList.add('active');
-    btnCliente.classList.remove('active');
-    clienteCampos.classList.add('hidden');
-    prestadorCampos.classList.remove('hidden');
-  });
+    btnPrestador.addEventListener('click', () => {
+      btnPrestador.classList.add('active');
+      btnCliente.classList.remove('active');
+      formCliente.classList.add('hidden');
+      formPrestador.classList.remove('hidden');
+    });
 
-  // Validação de senhas
-  const senhaCliente = document.getElementById('senha-cliente');
-  const confirmarSenhaCliente = document.getElementById('confirmar-senha-cliente');
-  const feedbackCliente = document.getElementById('senha-feedback');
-
-  const senhaPrestador = document.getElementById('senha-prestador');
-  const confirmarSenhaPrestador = document.getElementById('confirmar-senha-prestador');
-  const feedbackPrestador = document.getElementById('senha-feedback-prestador');
-
-  const formulario = document.getElementById('formulario');
-
-  function validarSenhaCliente() {
-    if (confirmarSenhaCliente.value !== senhaCliente.value) {
-      confirmarSenhaCliente.style.border = '2px solid red';
-      feedbackCliente.style.display = 'block';
-      return false;
-    } else {
-      confirmarSenhaCliente.style.border = '2px solid green';
-      feedbackCliente.style.display = 'none';
+    function validarSenhas(senha, confirmar) {
+      if (senha !== confirmar) {
+        alert("As senhas não coincidem.");
+        return false;
+      }
       return true;
     }
-  }
 
-  function validarSenhaPrestador() {
-    if (confirmarSenhaPrestador.value !== senhaPrestador.value) {
-      confirmarSenhaPrestador.style.border = '2px solid red';
-      feedbackPrestador.style.display = 'block';
-      return false;
-    } else {
-      confirmarSenhaPrestador.style.border = '2px solid green';
-      feedbackPrestador.style.display = 'none';
-      return true;
-    }
-  }
-
-  confirmarSenhaCliente.addEventListener('input', validarSenhaCliente);
-  confirmarSenhaPrestador.addEventListener('input', validarSenhaPrestador);
-
-  formulario.addEventListener('submit', function (e) {
-    const tipoAtivo = btnPrestador.classList.contains('active');
-    const senhaValida = tipoAtivo ? validarSenhaPrestador() : validarSenhaCliente();
-
-    if (!senhaValida) {
+    formCliente.addEventListener('submit', function(e) {
       e.preventDefault();
+
+      const senha = document.getElementById('senha-cliente').value;
+      const confirmar = document.getElementById('confirmar-senha-cliente').value;
+      if (!validarSenhas(senha, confirmar)) return;
+
+      const dados = {
+        tipo: 'cliente',
+        nome: document.getElementById('nome-cliente').value,
+        email: document.getElementById('email-cliente').value,
+        senha: senha,
+        telefone: document.getElementById('telefone-cliente').value
+      };
+
+      enviarDados(dados);
+    });
+
+    formPrestador.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const senha = document.getElementById('senha-prestador').value;
+      const confirmar = document.getElementById('confirmar-senha-prestador').value;
+      if (!validarSenhas(senha, confirmar)) return;
+
+      const dados = {
+        tipo: 'prestador',
+        nome: document.getElementById('nome-prestador').value,
+        email: document.getElementById('email-prestador').value,
+        senha: senha,
+        telefone: document.getElementById('telefone-prestador').value,
+        regiao: document.getElementById('regiao').value,
+        servico: document.getElementById('servico').value,
+        descricao: document.getElementById('descricao').value
+      };
+
+      enviarDados(dados);
+    });
+
+    function enviarDados(dados) {
+      fetch('http://localhost:3000/api/cadastrar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Erro no cadastro');
+          return res.json();
+        })
+        .then(data => {
+          alert(data.message || "Cadastro realizado com sucesso!");
+          window.location.href = "login.html";
+        })
+        .catch(err => {
+          alert("Erro ao cadastrar: " + err.message);
+        });
     }
-  });
   </script>
 </body>
 </html>
