@@ -1,0 +1,24 @@
+{
+  "name": "pi---iii",
+  "version": "1.0.0",
+  "description": "Tema do PI: \"Site para conectar microempreendedores a clientes\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manolipe2908/PI---III.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manolipe2908/PI---III/issues"
+  },
+  "homepage": "https://github.com/manolipe2908/PI---III#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}
