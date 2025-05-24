@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busca de Prestadores | Connect Work</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Connect Work</h1>
+    </div>
+  </header>
+
+  <main class="busca-container">
+    <!-- Coluna esquerda -->
+    <aside class="filtros">
+      <h2>Filtrar Prestadores</h2>
+      <input type="text" id="input-localizacao" placeholder="Pesquise por um bairro, cidade..." />
+
+      <h3>Especialidades</h3>
+      <form id="form-especialidades">
+        <label><input type="checkbox" value="Eletricista"> Eletricista</label>
+        <label><input type="checkbox" value="Encanador"> Encanador</label>
+        <label><input type="checkbox" value="Pintor de Obras"> Pintor de Obras</label>
+        <label><input type="checkbox" value="Marceneiro"> Marceneiro</label>
+        <label><input type="checkbox" value="Cabeleireiro(a)"> Cabeleireiro(a)</label>
+        <label><input type="checkbox" value="Manicure e Pedicure"> Manicure e Pedicure</label>
+        <label><input type="checkbox" value="Desenvolvedor Web"> Desenvolvedor Web</label>
+        <!-- Adicione outras especialidades conforme necessário -->
+        <button type="submit">Filtrar</button>
+      </form>
+    </aside>
+
+    <!-- Coluna direita -->
+    <section class="resultados" id="lista-prestadores">
+      <!-- Os cards serão inseridos por JavaScript -->
+    </section>
+  </main>
+
+  <script>
+    const prestadores = [
+      {
+        nome: "Carlos da Silva",
+        especialidade: "Eletricista",
+        cidade: "São Paulo",
+        avaliacao: 4.5
+      },
+      {
+        nome: "Ana Souza",
+        especialidade: "Cabeleireiro(a)",
+        cidade: "Campinas",
+        avaliacao: 5.0
+      },
+      {
+        nome: "João Marques",
+        especialidade: "Marceneiro",
+        cidade: "Rio de Janeiro",
+        avaliacao: 4.0
+      }
+    ];
+
+    function renderizarEstrelas(nota) {
+      const total = 5;
+      const cheias = Math.floor(nota);
+      const meia = nota % 1 >= 0.5 ? 1 : 0;
+      const vazias = total - cheias - meia;
+      return '★'.repeat(cheias) + '⯪'.repeat(meia) + '☆'.repeat(vazias);
+    }
+
+    function renderizarPrestadores(lista) {
+      const container = document.getElementById('lista-prestadores');
+      container.innerHTML = '';
+      lista.forEach(p => {
+        const card = document.createElement('div');
+        card.classList.add('card-prestador');
+        card.innerHTML = `
+          <h3>${p.nome}</h3>
+          <p><strong>Especialidade:</strong> ${p.especialidade}</p>
+          <p><strong>Cidade:</strong> ${p.cidade}</p>
+          <p><strong>Avaliação:</strong> <span class="estrelas">${renderizarEstrelas(p.avaliacao)}</span> (${p.avaliacao.toFixed(1)})</p>
+          <div class="acoes-card">
+            <button onclick="abrirAgenda('${p.nome}')">Agenda</button>
+            <button onclick="abrirPortfolio('${p.nome}')">Portfólio</button>
+            <button onclick="iniciarConversa('${p.nome}')">Conversar</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function abrirAgenda(nome) {
+      alert(`Abrindo agenda de ${nome}...`);
+    }
+
+    function abrirPortfolio(nome) {
+      alert(`Exibindo portfólio de ${nome}...`);
+    }
+
+    function iniciarConversa(nome) {
+      window.location.href = "conversas.html?prestador=" + encodeURIComponent(nome);
+    }
+
+    // Filtrar por especialidades
+    document.getElementById('form-especialidades').addEventListener('submit', e => {
+      e.preventDefault();
+      const selecionadas = Array.from(document.querySelectorAll('#form-especialidades input:checked'))
+        .map(input => input.value);
+      const filtrados = selecionadas.length > 0
+        ? prestadores.filter(p => selecionadas.includes(p.especialidade))
+        : prestadores;
+      renderizarPrestadores(filtrados);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderizarPrestadores(prestadores);
+    });
+  </script>
+</body>
+</html>
