@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat | Connect Work</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+   <header>
+    <div class="container">
+      <h1>Connect Work</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="busca.html">Serviços</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+          <li class="menu-perfil">
+            <span id="perfil-menu" class="perfil-dropdown-trigger">Perfil</span>
+            <ul class="submenu hidden" id="submenu-perfil">
+              <li><a href="#" id="ir-para-perfil">Perfil</a></li>
+              <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="chat-container">
+    <aside class="lista-contatos">
+      <h2>Conversas</h2>
+      <ul id="contatos">
+        <!-- Lista de contatos será preenchida dinamicamente -->
+      </ul>
+    </aside>
+
+    <section class="chat-box">
+      <div class="chat-header">
+        <h3 id="nome-contato">Selecione um contato</h3>
+      </div>
+
+      <div class="chat-mensagens" id="mensagens">
+        <!-- Mensagens vão aparecer aqui -->
+      </div>
+
+      <form class="chat-input" id="form-mensagem">
+        <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required />
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const contatos = [
+      { nome: "João Silva", tipo: "prestador" },
+      { nome: "Maria Oliveira", tipo: "cliente" }
+    ];
+
+    const mensagensPorContato = {
+      "João Silva": [
+        { texto: "Olá, tudo bem?", autor: "cliente" },
+        { texto: "Tudo sim! Em que posso ajudar?", autor: "prestador" }
+      ],
+      "Maria Oliveira": [
+        { texto: "Você realiza serviços aos sábados?", autor: "cliente" },
+        { texto: "Sim, das 8h às 14h!", autor: "prestador" }
+      ]
+    };
+
+    const contatosUl = document.getElementById('contatos');
+    const mensagensDiv = document.getElementById('mensagens');
+    const nomeContatoH3 = document.getElementById('nome-contato');
+    const formMensagem = document.getElementById('form-mensagem');
+    const inputMensagem = document.getElementById('mensagem');
+
+    let contatoAtual = null;
+
+    function renderizarContatos() {
+      contatos.forEach(contato => {
+        const li = document.createElement('li');
+        li.textContent = contato.nome;
+        li.onclick = () => abrirConversa(contato.nome);
+        contatosUl.appendChild(li);
+      });
+    }
+
+    function abrirConversa(nome) {
+      contatoAtual = nome;
+      nomeContatoH3.textContent = nome;
+      renderizarMensagens();
+    }
+
+    function renderizarMensagens() {
+      mensagensDiv.innerHTML = '';
+      const mensagens = mensagensPorContato[contatoAtual] || [];
+      mensagens.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'mensagem ' + (msg.autor === 'cliente' ? 'enviada' : 'recebida');
+        div.textContent = msg.texto;
+        mensagensDiv.appendChild(div);
+      });
+      mensagensDiv.scrollTop = mensagensDiv.scrollHeight;
+    }
+
+    formMensagem.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!contatoAtual) return;
+      const texto = inputMensagem.value.trim();
+      if (texto === '') return;
+
+      if (!mensagensPorContato[contatoAtual]) {
+        mensagensPorContato[contatoAtual] = [];
+      }
+      mensagensPorContato[contatoAtual].push({ texto, autor: 'cliente' });
+      inputMensagem.value = '';
+      renderizarMensagens();
+    });
+
+    renderizarContatos();
+  </script>
+</body>
+</html>

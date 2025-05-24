@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback do Atendimento | Connect Work</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Connect Work</h1>
+    </div>
+  </header>
+
+  <main class="form-box">
+    <h2>Feedback do Atendimento</h2>
+
+    <div class="servico-info">
+      <p><strong>Cliente:</strong> <span id="cliente-nome">...</span></p>
+      <p><strong>Data:</strong> <span id="servico-data">...</span></p>
+      <p><strong>Horário:</strong> <span id="servico-hora">...</span></p>
+      <p><strong>Descrição:</strong></p>
+      <p id="servico-descricao">...</p>
+    </div>
+
+    <form id="form-feedback">
+      <div class="form-group">
+        <label>Nota:</label>
+        <div id="avaliacao-estrelas" class="estrelas-avaliacao">
+          <i class="fa-regular fa-star" data-valor="1"></i>
+          <i class="fa-regular fa-star" data-valor="2"></i>
+          <i class="fa-regular fa-star" data-valor="3"></i>
+          <i class="fa-regular fa-star" data-valor="4"></i>
+          <i class="fa-regular fa-star" data-valor="5"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="comentario">Comentário:</label>
+        <textarea id="comentario" rows="4" placeholder="Como foi sua experiência?"></textarea>
+      </div>
+
+      <button type="submit" class="btn-cadastro">Enviar Feedback</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Connect Work</p>
+    </div>
+  </footer>
+
+  <script>
+    // Recuperar os dados do serviço encerrado
+    const servico = JSON.parse(localStorage.getItem('servicoEncerrado')) || {};
+
+    document.getElementById('cliente-nome').textContent = servico.cliente || 'Não informado';
+    document.getElementById('servico-data').textContent = new Date(servico.data).toLocaleDateString('pt-BR') || '';
+    document.getElementById('servico-hora').textContent = servico.hora || '';
+    document.getElementById('servico-descricao').textContent = servico.descricao || '';
+
+    // Avaliação por estrelas
+    let notaSelecionada = 0;
+
+    document.querySelectorAll('#avaliacao-estrelas i').forEach(estrela => {
+      estrela.addEventListener('click', () => {
+        notaSelecionada = parseInt(estrela.getAttribute('data-valor'));
+        atualizarEstrelas(notaSelecionada);
+      });
+    });
+
+    function atualizarEstrelas(nota) {
+      document.querySelectorAll('#avaliacao-estrelas i').forEach(estrela => {
+        const valor = parseInt(estrela.getAttribute('data-valor'));
+        estrela.className = valor <= nota ? 'fa-solid fa-star' : 'fa-regular fa-star';
+      });
+    }
+
+    // Enviar feedback
+    document.getElementById('form-feedback').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const comentario = document.getElementById('comentario').value.trim();
+
+      if (notaSelecionada === 0) {
+        alert("Por favor, selecione uma nota.");
+        return;
+      }
+
+      const feedback = {
+        ...servico,
+        nota: notaSelecionada,
+        comentario
+      };
+
+      console.log("Feedback enviado:", feedback);
+
+      // Aqui você pode salvar o feedback no localStorage, API, banco, etc.
+      localStorage.removeItem('servicoEncerrado');
+      alert("Obrigado pelo seu feedback!");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

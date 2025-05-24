@@ -453,15 +453,16 @@ function renderizarServicos() {
     const card = document.createElement('div');
     card.classList.add('card-servico');
     card.innerHTML = `
-      <span><strong>Data:</strong> ${new Date(serv.data).toLocaleDateString()}</span>
-      <span><strong>Hora:</strong> ${serv.hora}</span>
-      <span><strong>Cliente:</strong> ${serv.cliente}</span>
-      <div class="acoes">
-        <button class="detalhes" onclick="abrirDetalhes('${serv.descricao}')">Detalhes</button>
-        <button class="editar" onclick="abrirJustificativa('editar', ${index})">Editar</button>
-        <button class="cancelar" onclick="abrirJustificativa('cancelar', ${index})">Cancelar</button>
-      </div>
-    `;
+  <span><strong>Data:</strong> ${new Date(serv.data).toLocaleDateString()}</span>
+  <span><strong>Hora:</strong> ${serv.hora}</span>
+  <span><strong>Cliente:</strong> ${serv.cliente}</span>
+  <div class="acoes">
+    <button class="detalhes" onclick="abrirDetalhes('${serv.descricao}')">Detalhes</button>
+    <button class="editar" onclick="abrirJustificativa('editar', ${index})">Editar</button>
+    <button class="cancelar" onclick="abrirJustificativa('cancelar', ${index})">Cancelar</button>
+    <button class="encerrar" onclick="encerrarAtendimento(${index})">Encerrar Atendimento</button>
+  </div>
+`;
     listaServicos.appendChild(card);
   });
 }
@@ -577,6 +578,12 @@ selectEspecialidade.addEventListener('change', () => {
   perfil.especialidade = selectEspecialidade.value;
   localStorage.setItem('perfilPrestador', JSON.stringify(perfil));
 });
+
+function encerrarAtendimento(index) {
+  // Aqui você pode adicionar lógica extra de encerramento se desejar
+  localStorage.setItem('servicoEncerrando', JSON.stringify(servicos[index]));
+  window.location.href = 'feedback.html';
+}
 
     
   </script>
