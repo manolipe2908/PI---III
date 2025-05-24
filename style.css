@@ -757,3 +757,123 @@ input[type="file"] {
 .hidden {
   display: none;
 }
+
+.perfil-cliente-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 30px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.perfil-cliente-esquerda {
+  flex: 1;
+  min-width: 280px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.perfil-cliente-direita {
+  flex: 2;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.perfil-cliente-info .info-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.perfil-cliente-info strong {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+}
+
+.perfil-cliente-info .texto {
+  margin-left: 10px;
+}
+
+.perfil-cliente-info .editar {
+  margin-left: 10px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.perfil-cliente-info .edicao {
+  margin-top: 10px;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-cliente-info .edicao.hidden {
+  display: none;
+}
+
+.perfil-cliente-info input[type="text"],
+.perfil-cliente-info input[type="email"],
+.perfil-cliente-info input[type="tel"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+}
+
+.perfil-cliente-info button.salvar,
+.perfil-cliente-info button.cancelar {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.perfil-cliente-info button.salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.perfil-cliente-info button.cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Estilo já existente reutilizado */
+.avaliacao-prestador {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.endereco-box {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.endereco-box h2 {
+  margin-bottom: 20px;
+}
+
+.endereco-box .form-group {
+  margin-bottom: 15px;
+}
+
+.endereco-box input,
+.endereco-box textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}

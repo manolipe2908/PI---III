@@ -21,47 +21,74 @@
     </div>
   </header>
 
-  <section class="formulario">
-    <div class="form-box">
+  <main class="perfil-container">
+    <!-- Bloco lateral esquerdo -->
+    <section class="dados-pessoais">
       <h2>Meu Perfil</h2>
+      <div class="foto-perfil">
+        <label for="foto-cliente">
+          <img id="preview-foto-cliente" src="https://via.placeholder.com/150" alt="Foto de perfil">
+          <p>Alterar foto</p>
+        </label>
+        <input type="file" id="foto-cliente" accept="image/*" style="display: none;">
+        <h3 id="nome-exibido">Nome do Usuário</h3>
 
-      <form id="perfil-cliente-form">
-        <div class="foto-perfil">
-          <label for="foto-cliente">
-            <img id="preview-foto-cliente" src="https://via.placeholder.com/150" alt="Foto de perfil">
-            <p>Alterar foto</p>
-          </label>
-          <input type="file" id="foto-cliente" name="foto" accept="image/*" style="display: none;">
+        <div class="avaliacao-prestador">
+          <span class="estrelas">
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+          </span>
+          <span class="nota-media" id="nota-media">5.0</span>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label for="nome-cliente">Nome</label>
-          <div class="input-icon">
-            <i class="fa fa-user"></i>
-            <input type="text" id="nome-cliente" name="nome" placeholder="Seu nome completo" required>
+      <div class="perfil-info">
+        <div class="info-item" data-campo="nome">
+          <strong>Nome:</strong>
+          <span class="texto" id="nome-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="text" id="input-nome">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="email-cliente">Email</label>
-          <div class="input-icon">
-            <i class="fa fa-envelope"></i>
-            <input type="email" id="email-cliente" name="email" placeholder="Seu email" required>
+        <div class="info-item" data-campo="email">
+          <strong>Email:</strong>
+          <span class="texto" id="email-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="email" id="input-email">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="telefone-cliente">Telefone</label>
-          <div class="input-icon">
-            <i class="fa fa-phone"></i>
-            <input type="tel" id="telefone-cliente" name="telefone" placeholder="(11) 99999-9999" required>
+        <div class="info-item" data-campo="telefone">
+          <strong>Telefone:</strong>
+          <span class="texto" id="telefone-texto"></span>
+          <i class="fa fa-pencil-alt editar"></i>
+          <div class="edicao hidden">
+            <input type="tel" id="input-telefone">
+            <button class="salvar">Salvar</button>
+            <button class="cancelar">Cancelar</button>
           </div>
         </div>
+      </div>
+    </section>
 
-        <button type="submit" class="btn-cadastro">Salvar alterações</button>
-      </form>
+    <!-- Bloco de serviços à direita -->
+    <div class="bloco-direita">
+      <section class="servicos-box">
+        <h2>Serviços Agendados</h2>
+        <div id="lista-servicos"></div>
+      </section>
     </div>
-  </section>
+  </main>
 
   <footer>
     <div class="container">
@@ -69,20 +96,226 @@
     </div>
   </footer>
 
-  <script>
-    const inputFotoCliente = document.getElementById('foto-cliente');
-    const previewFotoCliente = document.getElementById('preview-foto-cliente');
+  <!-- Modal Detalhes -->
+  <div id="modal-detalhes" class="modal hidden">
+    <div class="modal-conteudo">
+      <h3>Descrição do Serviço</h3>
+      <p id="detalhes-servico"></p>
+      <div class="modal-acoes">
+        <button onclick="fecharModal('modal-detalhes')">Fechar</button>
+      </div>
+    </div>
+  </div>
 
-    inputFotoCliente.addEventListener('change', function () {
-      const arquivo = inputFotoCliente.files[0];
-      if (arquivo) {
+  <!-- Modal Cancelar -->
+  <div id="modal-cancelar" class="modal hidden">
+    <div class="modal-conteudo">
+      <h3>Cancelar Serviço</h3>
+      <input type="hidden" id="index-cancelar">
+      <textarea id="justificativa-cancelar" placeholder="Escreva sua justificativa..."></textarea>
+      <div class="modal-acoes">
+        <button onclick="confirmarCancelamento()">Confirmar</button>
+        <button onclick="fecharModal('modal-cancelar')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar -->
+  <div id="modal-editar" class="modal hidden">
+    <div class="modal-conteudo">
+      <h3>Editar Serviço</h3>
+      <input type="hidden" id="index-editar">
+      <label>Nova Data:</label>
+      <input type="date" id="data-editar">
+      <label>Novo Horário:</label>
+      <input type="time" id="horario-editar">
+      <textarea id="justificativa-editar" placeholder="Escreva sua justificativa..."></textarea>
+      <div class="modal-acoes">
+        <button onclick="confirmarEdicao()">Salvar</button>
+        <button onclick="fecharModal('modal-editar')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const previewFoto = document.getElementById('preview-foto-cliente');
+    const inputFoto = document.getElementById('foto-cliente');
+    const nomeExibido = document.getElementById('nome-exibido');
+
+    inputFoto.addEventListener('change', function () {
+      const file = inputFoto.files[0];
+      if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
-          previewFotoCliente.src = e.target.result;
+          previewFoto.src = e.target.result;
+          localStorage.setItem('fotoCliente', e.target.result);
         };
-        reader.readAsDataURL(arquivo);
+        reader.readAsDataURL(file);
       }
     });
+
+    function carregarPerfilCliente() {
+      const perfil = JSON.parse(localStorage.getItem('perfilCliente')) || {};
+      document.getElementById('nome-texto').textContent = perfil.nome || '';
+      document.getElementById('email-texto').textContent = perfil.email || '';
+      document.getElementById('telefone-texto').textContent = perfil.telefone || '';
+      nomeExibido.textContent = perfil.nome || 'Nome do Cliente';
+      const foto = localStorage.getItem('fotoCliente');
+      if (foto) previewFoto.src = foto;
+    }
+
+    document.querySelectorAll('.info-item').forEach(item => {
+      const campo = item.dataset.campo;
+      const editar = item.querySelector('.editar');
+      const salvar = item.querySelector('.salvar');
+      const cancelar = item.querySelector('.cancelar');
+      const texto = item.querySelector('.texto');
+      const input = item.querySelector('input');
+      const edicao = item.querySelector('.edicao');
+
+      editar.addEventListener('click', () => {
+        edicao.classList.remove('hidden');
+        input.value = texto.textContent;
+        texto.style.display = 'none';
+        editar.style.display = 'none';
+      });
+
+      cancelar.addEventListener('click', () => {
+        edicao.classList.add('hidden');
+        texto.style.display = 'inline';
+        editar.style.display = 'inline-block';
+      });
+
+      salvar.addEventListener('click', () => {
+        texto.textContent = input.value;
+        edicao.classList.add('hidden');
+        texto.style.display = 'inline';
+        editar.style.display = 'inline-block';
+        const perfil = JSON.parse(localStorage.getItem('perfilCliente')) || {};
+        perfil[campo] = input.value;
+        localStorage.setItem('perfilCliente', JSON.stringify(perfil));
+        if (campo === 'nome') nomeExibido.textContent = input.value;
+      });
+    });
+
+    carregarPerfilCliente();
+
+    // ---------- Serviços Agendados ----------
+    const listaServicos = document.getElementById('lista-servicos');
+
+    function formatarDataBR(dataISO) {
+      const d = new Date(dataISO);
+      const dia = String(d.getDate()).padStart(2, '0');
+      const mes = String(d.getMonth() + 1).padStart(2, '0');
+      const ano = d.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function renderizarServicos() {
+      const servicos = JSON.parse(localStorage.getItem('servicosCliente')) || [];
+      listaServicos.innerHTML = '';
+      servicos.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card-servico');
+        card.innerHTML = `
+          <span><strong>Data:</strong> ${formatarDataBR(item.data)}</span>
+          <span><strong>Horário:</strong> ${item.horario}</span>
+          <span><strong>Prestador:</strong> ${item.prestador}</span>
+          <div class="acoes">
+            <button class="detalhes" onclick="abrirModalDetalhes('${item.descricao}')">Detalhes</button>
+            <button class="editar" onclick="abrirModalEditar(${index})">Editar</button>
+            <button class="cancelar" onclick="abrirModalCancelar(${index})">Cancelar</button>
+          </div>
+        `;
+        listaServicos.appendChild(card);
+      });
+    }
+
+    function abrirModalDetalhes(descricao) {
+      document.getElementById('detalhes-servico').textContent = descricao;
+      document.getElementById('modal-detalhes').classList.remove('hidden');
+    }
+
+    function fecharModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function abrirModalCancelar(index) {
+      document.getElementById('index-cancelar').value = index;
+      document.getElementById('justificativa-cancelar').value = '';
+      document.getElementById('modal-cancelar').classList.remove('hidden');
+    }
+
+    function abrirModalEditar(index) {
+      const servicos = JSON.parse(localStorage.getItem('servicosCliente')) || [];
+      const s = servicos[index];
+      document.getElementById('index-editar').value = index;
+      document.getElementById('data-editar').value = s.data;
+      document.getElementById('horario-editar').value = s.horario;
+      document.getElementById('justificativa-editar').value = '';
+      document.getElementById('modal-editar').classList.remove('hidden');
+    }
+
+    function confirmarCancelamento() {
+      const index = parseInt(document.getElementById('index-cancelar').value);
+      const justificativa = document.getElementById('justificativa-cancelar').value.trim();
+      if (justificativa) {
+        const servicos = JSON.parse(localStorage.getItem('servicosCliente')) || [];
+        servicos.splice(index, 1);
+        localStorage.setItem('servicosCliente', JSON.stringify(servicos));
+        fecharModal('modal-cancelar');
+        renderizarServicos();
+      } else {
+        alert("Por favor, insira a justificativa para o cancelamento.");
+      }
+    }
+
+    function confirmarEdicao() {
+      const index = parseInt(document.getElementById('index-editar').value);
+      const data = document.getElementById('data-editar').value;
+      const horario = document.getElementById('horario-editar').value;
+      const justificativa = document.getElementById('justificativa-editar').value.trim();
+      if (data && horario && justificativa) {
+        const servicos = JSON.parse(localStorage.getItem('servicosCliente')) || [];
+        servicos[index].data = data;
+        servicos[index].horario = horario;
+        localStorage.setItem('servicosCliente', JSON.stringify(servicos));
+        fecharModal('modal-editar');
+        renderizarServicos();
+      } else {
+        alert("Preencha todos os campos e a justificativa.");
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderizarServicos();
+    });
+
+    // Simulação de serviços agendados (inserido apenas se ainda não houver dados)
+if (!localStorage.getItem('servicosCliente')) {
+  const servicosSimulados = [
+    {
+      data: "2025-06-15",
+      horario: "14:00",
+      prestador: "João Silva",
+      descricao: "Conserto de encanamento no banheiro."
+    },
+    {
+      data: "2025-06-18",
+      horario: "09:30",
+      prestador: "Maria Oliveira",
+      descricao: "Limpeza completa da casa."
+    },
+    {
+      data: "2025-06-20",
+      horario: "16:00",
+      prestador: "Carlos Souza",
+      descricao: "Instalação de ventilador de teto."
+    }
+  ];
+  localStorage.setItem('servicosCliente', JSON.stringify(servicosSimulados));
+}
   </script>
 </body>
 </html>
