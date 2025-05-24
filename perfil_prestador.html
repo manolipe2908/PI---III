@@ -22,10 +22,9 @@
   </header>
 
   <main class="perfil-container">
-    <!-- Lado esquerdo -->
+    <!-- Bloco lateral esquerdo -->
     <section class="dados-pessoais">
       <h2>Meu Perfil</h2>
-
       <div class="foto-perfil">
         <label for="foto">
           <img id="preview-foto" src="https://via.placeholder.com/150" alt="Foto de perfil">
@@ -33,6 +32,16 @@
         </label>
         <input type="file" id="foto" name="foto" accept="image/*" style="display: none;">
         <h3 id="nome-exibido">Nome do Usuário</h3>
+        <div class="avaliacao-prestador">
+          <span class="estrelas">
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+            <i class="fas fa-star estrela"></i>
+          </span>
+          <span class="nota-media" id="nota-media">5.0</span>
+        </div>
       </div>
 
       <div class="perfil-info">
@@ -71,24 +80,68 @@
       </div>
     </section>
 
-    <!-- Portfólio -->
-    <section class="portfolio-box">
-      <h2>Portfólio</h2>
-      <form id="portfolio-form">
-        <div class="form-group">
-          <label for="descricao-portfolio">Descrição do trabalho</label>
-          <textarea id="descricao-portfolio" rows="4" placeholder="Fale um pouco sobre sua experiência..."></textarea>
-        </div>
+    <!-- Bloco central-direito -->
+    <div class="bloco-direita">
+      <section class="portfolio-box">
+        <h2>Portfólio</h2>
+        <form id="portfolio-form">
+          <div class="form-group">
+            <label for="descricao-portfolio">Descrição do trabalho</label>
+            <textarea id="descricao-portfolio" rows="4" placeholder="Fale um pouco sobre sua experiência..."></textarea>
+          </div>
 
-        <div class="form-group">
-          <label for="imagens-portfolio">Anexar imagens</label>
-          <input type="file" id="imagens-portfolio" accept="image/*" multiple>
-          <div id="preview-imagens" class="preview-imagens"></div>
-        </div>
+          <div class="form-group">
+            <label for="imagens-portfolio">Anexar imagens</label>
+            <input type="file" id="imagens-portfolio" accept="image/*" multiple>
+            <div id="preview-imagens" class="preview-imagens"></div>
+          </div>
 
-        <button type="submit" class="btn-cadastro">Salvar Portfólio</button>
-      </form>
-    </section>
+          <button type="submit" class="btn-cadastro">Salvar Portfólio</button>
+        </form>
+      </section>
+
+      <section class="agenda-box">
+        <h2>Agenda de Disponibilidade</h2>
+        <form id="agenda-form" class="agenda-form">
+          <input type="date" id="data-agenda" required>
+          <input type="time" id="hora-inicial" required>
+          <input type="time" id="hora-final" required>
+          <button type="submit" class="btn-cadastro">Adicionar Horário</button>
+        </form>
+
+        <div class="agenda-lista">
+          <h3>Horários Cadastrados</h3>
+          <div id="lista-agenda"></div>
+        </div>
+      </section>
+    </div>
+
+   <section class="servicos-box">
+  <h2>Serviços Agendados</h2>
+  <div id="lista-servicos"></div>
+
+  <!-- Modal Detalhes -->
+  <div id="modal-detalhes" class="modal hidden">
+    <div class="modal-conteudo">
+      <h3>Descrição do Serviço</h3>
+      <p id="descricao-detalhes"></p>
+      <button onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal Justificativa -->
+  <div id="modal-justificativa" class="modal hidden">
+    <div class="modal-conteudo">
+      <h3 id="modal-titulo"></h3>
+      <textarea id="campo-justificativa" placeholder="Informe a justificativa..."></textarea>
+      <div class="modal-acoes">
+        <button onclick="confirmarJustificativa()">Confirmar</button>
+        <button onclick="fecharModalJustificativa()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
   </main>
 
   <footer>
@@ -116,23 +169,22 @@
 
     function carregarPerfil() {
       const perfil = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
-
       document.getElementById('nome-texto').textContent = perfil.nome || '';
       document.getElementById('email-texto').textContent = perfil.email || '';
       document.getElementById('telefone-texto').textContent = perfil.telefone || '';
       nomeExibido.textContent = perfil.nome || 'Nome do Usuário';
-
       const foto = localStorage.getItem('fotoPerfil');
       if (foto) previewFoto.src = foto;
     }
 
+    // CORRIGIDO: manipulação dos campos de edição
     document.querySelectorAll('.info-item').forEach(item => {
       const campo = item.dataset.campo;
       const editar = item.querySelector('.editar');
       const salvar = item.querySelector('.salvar');
       const cancelar = item.querySelector('.cancelar');
       const texto = item.querySelector('.texto');
-      const input = item.querySelector('input');
+      const input = item.querySelector(`input[id="input-${campo}"]`);
       const edicao = item.querySelector('.edicao');
 
       editar.addEventListener('click', () => {
@@ -153,11 +205,9 @@
         edicao.classList.add('hidden');
         texto.style.display = 'inline';
         editar.style.display = 'inline-block';
-
         const perfil = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
         perfil[campo] = input.value;
         localStorage.setItem('perfilPrestador', JSON.stringify(perfil));
-
         if (campo === 'nome') nomeExibido.textContent = input.value;
       });
     });
@@ -173,7 +223,6 @@
     inputImagens.addEventListener('change', () => {
       previewImagens.innerHTML = '';
       const arquivos = inputImagens.files;
-
       for (let i = 0; i < arquivos.length; i++) {
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -188,12 +237,10 @@
 
     formPortfolio.addEventListener('submit', (e) => {
       e.preventDefault();
-
       const descricao = inputDescricao.value;
       const imagens = [];
       const arquivos = inputImagens.files;
       const promises = [];
-
       for (let i = 0; i < arquivos.length; i++) {
         const reader = new FileReader();
         const p = new Promise((resolve) => {
@@ -205,7 +252,6 @@
         });
         promises.push(p);
       }
-
       Promise.all(promises).then(() => {
         const portfolioData = { descricao, imagens };
         localStorage.setItem('portfolioPrestador', JSON.stringify(portfolioData));
@@ -229,6 +275,175 @@
         }
       }
     });
+
+    // Agenda
+    const formAgenda = document.getElementById('agenda-form');
+    const dataInput = document.getElementById('data-agenda');
+    const horaInicioInput = document.getElementById('hora-inicial');
+    const horaFimInput = document.getElementById('hora-final');
+    const listaAgenda = document.getElementById('lista-agenda');
+
+    function renderizarAgenda() {
+      const agendamentos = JSON.parse(localStorage.getItem('agendaPrestador')) || [];
+      const agrupado = {};
+
+      agendamentos.forEach((item, index) => {
+        if (!agrupado[item.data]) agrupado[item.data] = [];
+        agrupado[item.data].push({ ...item, index });
+      });
+
+      listaAgenda.innerHTML = '';
+      Object.keys(agrupado).sort().forEach(data => {
+        const diaDiv = document.createElement('div');
+        diaDiv.classList.add('dia-agenda');
+        const titulo = document.createElement('h4');
+        titulo.textContent = new Date(data).toLocaleDateString();
+        diaDiv.appendChild(titulo);
+
+        agrupado[data].forEach(({ horaInicio, horaFim, index }) => {
+          const bloco = document.createElement('div');
+          bloco.classList.add('bloco-horario');
+          bloco.innerHTML = `
+            <span>${horaInicio} às ${horaFim}</span>
+            <button onclick="editarHorario(${index})">Editar</button>
+            <button onclick="excluirHorario(${index})">Excluir</button>
+          `;
+          diaDiv.appendChild(bloco);
+        });
+
+        listaAgenda.appendChild(diaDiv);
+      });
+    }
+
+    formAgenda.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = dataInput.value;
+      const horaInicio = horaInicioInput.value;
+      const horaFim = horaFimInput.value;
+      const agendamentos = JSON.parse(localStorage.getItem('agendaPrestador')) || [];
+      agendamentos.push({ data, horaInicio, horaFim });
+      localStorage.setItem('agendaPrestador', JSON.stringify(agendamentos));
+      formAgenda.reset();
+      renderizarAgenda();
+    });
+
+    function excluirHorario(index) {
+      const agendamentos = JSON.parse(localStorage.getItem('agendaPrestador')) || [];
+      agendamentos.splice(index, 1);
+      localStorage.setItem('agendaPrestador', JSON.stringify(agendamentos));
+      renderizarAgenda();
+    }
+
+    function editarHorario(index) {
+      const agendamentos = JSON.parse(localStorage.getItem('agendaPrestador')) || [];
+      const item = agendamentos[index];
+      dataInput.value = item.data;
+      horaInicioInput.value = item.horaInicio;
+      horaFimInput.value = item.horaFim;
+      agendamentos.splice(index, 1);
+      localStorage.setItem('agendaPrestador', JSON.stringify(agendamentos));
+      renderizarAgenda();
+    }
+
+    renderizarAgenda();
+
+    // Simulação de serviços agendados
+let servicos = [
+  {
+    data: "2025-06-10",
+    hora: "14:00",
+    cliente: "João Silva",
+    descricao: "Instalação de prateleiras em apartamento",
+  },
+  {
+    data: "2025-06-12",
+    hora: "10:30",
+    cliente: "Maria Oliveira",
+    descricao: "Reparo elétrico na cozinha",
+  }
+];
+
+const listaServicos = document.getElementById('lista-servicos');
+const modalDetalhes = document.getElementById('modal-detalhes');
+const descricaoDetalhes = document.getElementById('descricao-detalhes');
+
+const modalJustificativa = document.getElementById('modal-justificativa');
+const campoJustificativa = document.getElementById('campo-justificativa');
+const modalTitulo = document.getElementById('modal-titulo');
+
+let tipoAcao = '';
+let servicoSelecionado = null;
+
+function renderizarServicos() {
+  listaServicos.innerHTML = '';
+  servicos.forEach((serv, index) => {
+    const card = document.createElement('div');
+    card.classList.add('card-servico');
+    card.innerHTML = `
+      <span><strong>Data:</strong> ${new Date(serv.data).toLocaleDateString()}</span>
+      <span><strong>Hora:</strong> ${serv.hora}</span>
+      <span><strong>Cliente:</strong> ${serv.cliente}</span>
+      <div class="acoes">
+        <button class="detalhes" onclick="abrirDetalhes('${serv.descricao}')">Detalhes</button>
+        <button class="editar" onclick="abrirJustificativa('editar', ${index})">Editar</button>
+        <button class="cancelar" onclick="abrirJustificativa('cancelar', ${index})">Cancelar</button>
+      </div>
+    `;
+    listaServicos.appendChild(card);
+  });
+}
+
+function abrirDetalhes(descricao) {
+  descricaoDetalhes.textContent = descricao;
+  modalDetalhes.classList.remove('hidden');
+}
+
+function fecharModal() {
+  modalDetalhes.classList.add('hidden');
+}
+
+function abrirJustificativa(acao, index) {
+  tipoAcao = acao;
+  servicoSelecionado = index;
+  campoJustificativa.value = '';
+  modalTitulo.textContent = acao === 'cancelar' ? 'Justificativa de Cancelamento' : 'Justificativa de Edição';
+  modalJustificativa.classList.remove('hidden');
+}
+
+function fecharModalJustificativa() {
+  modalJustificativa.classList.add('hidden');
+  tipoAcao = '';
+  servicoSelecionado = null;
+}
+
+function confirmarJustificativa() {
+  const justificativa = campoJustificativa.value.trim();
+  if (justificativa === '') {
+    alert('Por favor, informe a justificativa.');
+    return;
+  }
+
+  if (tipoAcao === 'cancelar') {
+    alert(`Serviço cancelado.\nJustificativa: ${justificativa}`);
+    servicos.splice(servicoSelecionado, 1);
+  } else if (tipoAcao === 'editar') {
+    const novaData = prompt("Nova data (aaaa-mm-dd):", servicos[servicoSelecionado].data);
+    const novaHora = prompt("Novo horário (hh:mm):", servicos[servicoSelecionado].hora);
+    if (novaData && novaHora) {
+      servicos[servicoSelecionado].data = novaData;
+      servicos[servicoSelecionado].hora = novaHora;
+      alert(`Serviço editado.\nJustificativa: ${justificativa}`);
+    }
+  }
+
+  fecharModalJustificativa();
+  renderizarServicos();
+}
+
+renderizarServicos();
+
+
+    
   </script>
 </body>
 </html>

@@ -359,25 +359,122 @@ body {
 
 .perfil-container {
   display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 40px;
   padding: 30px 20px;
   max-width: 1100px;
   margin: 0 auto;
+  flex-wrap: wrap;
 }
 
 .dados-pessoais {
   flex: 1;
-  min-width: 300px;
+  min-width: 280px;
   background-color: #fff;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-.portfolio-box {
+.foto-perfil {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.foto-perfil img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+
+.foto-perfil p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.foto-perfil h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.perfil-info .info-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.perfil-info strong {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+}
+
+.perfil-info .texto {
+  margin-left: 10px;
+}
+
+.perfil-info .editar {
+  margin-left: 10px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.perfil-info .edicao {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-info .edicao.hidden {
+  display: none;
+}
+
+.perfil-info input[type="text"],
+.perfil-info input[type="email"],
+.perfil-info input[type="tel"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+}
+
+.perfil-info button.salvar,
+.perfil-info button.cancelar {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.perfil-info button.salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.perfil-info button.cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.bloco-direita {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   min-width: 400px;
+}
+
+/* Portfólio */
+.portfolio-box,
+.agenda-box {
   background-color: #fff;
   padding: 25px;
   border-radius: 12px;
@@ -385,8 +482,25 @@ body {
 }
 
 .portfolio-box h2,
-.dados-pessoais h2 {
+.agenda-box h2 {
   margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+input[type="file"] {
+  margin-top: 10px;
 }
 
 .preview-imagens {
@@ -402,62 +516,241 @@ body {
   object-fit: cover;
 }
 
-.perfil-info {
-  margin-top: 20px;
-}
-
-.info-item {
-  margin-bottom: 20px;
-  position: relative;
-}
-
-.info-item strong {
-  display: inline-block;
-  width: 100px;
-}
-
-.info-item .texto {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.info-item .editar {
-  cursor: pointer;
-  color: #007bff;
-  margin-left: 5px;
-}
-
-.info-item .edicao {
-  margin-top: 10px;
-}
-
-.info-item input {
-  padding: 6px;
+/* Botão principal */
+.btn-cadastro {
+  width: fit-content;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
   font-size: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
-  display: block;
-  width: 100%;
-  max-width: 300px;
+  cursor: pointer;
 }
 
-.info-item button {
-  margin-right: 6px;
+.btn-cadastro:hover {
+  background-color: #0056b3;
+}
+
+/* Agenda */
+.agenda-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.agenda-form input[type="date"],
+.agenda-form input[type="time"] {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 150px;
+}
+
+.agenda-form button {
+  padding: 10px 18px;
+  font-size: 15px;
+  border: none;
+  border-radius: 30px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.agenda-form button:hover {
+  background-color: #0056b3;
+}
+
+.agenda-lista h3 {
+  margin-bottom: 10px;
+}
+
+.dia-agenda {
+  margin-bottom: 25px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.dia-agenda h4 {
+  margin-bottom: 10px;
+  font-size: 17px;
+  color: #007bff;
+}
+
+.bloco-horario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.bloco-horario span {
+  font-size: 15px;
+}
+
+.bloco-horario button {
+  margin-left: 10px;
   padding: 6px 10px;
-  font-size: 14px;
+  font-size: 13px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.info-item button.salvar {
+.bloco-horario button:first-of-type {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.bloco-horario button:last-of-type {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Escondido */
+.hidden {
+  display: none;
+}
+
+.avaliacao-prestador {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.estrelas {
+  color: #ffc107; /* cor dourada das estrelas */
+  display: inline-block;
+}
+
+.estrelas .estrela {
+  color: #ffc107;
+  font-size: 20px;
+  margin: 0 2px;
+}
+
+.nota-media {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* Serviços Agendados */
+.servicos-box {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 30px;
+  width: 100%;
+}
+
+.servicos-box h2 {
+  margin-bottom: 20px;
+}
+
+.card-servico {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #fafafa;
+}
+
+.card-servico span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.card-servico .acoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-servico .acoes button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.card-servico .acoes .detalhes {
+  background-color: #007bff;
+  color: white;
+}
+
+.card-servico .acoes .editar {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.card-servico .acoes .cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-conteudo {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.modal-conteudo textarea {
+  width: 100%;
+  height: 80px;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.modal-acoes {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-acoes button {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal-acoes button:first-child {
   background-color: #28a745;
   color: white;
 }
 
-.info-item button.cancelar {
-  background-color: #dc3545;
+.modal-acoes button:last-child {
+  background-color: #6c757d;
   color: white;
 }
 
