@@ -142,6 +142,36 @@
   </form>
 </section>
 
+<section class="especialidade-box">
+  <h2>Especialidade</h2>
+  <div class="form-group">
+    <label for="especialidade">Selecione sua especialidade</label>
+    <select id="especialidade" name="especialidade">
+      <option value="">-- Escolha uma opção --</option>
+      <option>Pedreiro</option>
+      <option>Eletricista</option>
+      <option>Encanador</option>
+      <option>Pintor de Obras</option>
+      <option>Marceneiro</option>
+      <option>Serralheiro</option>
+      <option>Jardineiro</option>
+      <option>Instalador de Ar-condicionado</option>
+      <option>Manicure e Pedicure</option>
+      <option>Cabeleireiro(a)</option>
+      <option>Maquiador(a)</option>
+      <option>Fotógrafo Profissional</option>
+      <option>Costureiro(a)</option>
+      <option>Designer Gráfico</option>
+      <option>Desenvolvedor Web</option>
+      <option>Mecânico de Automóveis</option>
+      <option>Reparador de Eletrodomésticos</option>
+      <option>Chaveiro</option>
+      <option>Consultor de Informática / Suporte Técnico</option>
+      <option>Técnico de Celular / Eletrônicos</option>
+    </select>
+  </div>
+</section>
+
 
       <section class="agenda-box">
         <h2>Agenda de Disponibilidade</h2>
@@ -184,7 +214,6 @@
     </div>
   </div>
 </section>
-
 
   </main>
 
@@ -533,6 +562,20 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pais').value = dados.pais || 'Brasil';
     document.getElementById('observacao').value = dados.observacao || '';
   }
+});
+
+const selectEspecialidade = document.getElementById('especialidade');
+
+// Carregar especialidade salva
+const dadosSalvos = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
+if (dadosSalvos.especialidade) {
+  selectEspecialidade.value = dadosSalvos.especialidade;
+}
+
+selectEspecialidade.addEventListener('change', () => {
+  const perfil = JSON.parse(localStorage.getItem('perfilPrestador')) || {};
+  perfil.especialidade = selectEspecialidade.value;
+  localStorage.setItem('perfilPrestador', JSON.stringify(perfil));
 });
 
     

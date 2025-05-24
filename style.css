@@ -877,3 +877,23 @@ input[type="file"] {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
+
+.especialidade-box {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-top: 30px;
+}
+
+.especialidade-box h2 {
+  margin-bottom: 15px;
+}
+
+.especialidade-box select {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
