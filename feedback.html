@@ -11,6 +11,18 @@
   <header>
     <div class="container">
       <h1>Connect Work</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Início</a></li>
+          <li class="menu-perfil">
+            <span id="perfil-menu" class="perfil-dropdown-trigger">Perfil</span>
+            <ul class="submenu hidden" id="submenu-perfil">
+              <li><a href="#" id="ir-para-perfil">Perfil</a></li>
+              <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
 
@@ -56,10 +68,10 @@
     // Recuperar os dados do serviço encerrado
     const servico = JSON.parse(localStorage.getItem('servicoEncerrado')) || {};
 
-    document.getElementById('cliente-nome').textContent = servico.cliente || 'Não informado';
-    document.getElementById('servico-data').textContent = new Date(servico.data).toLocaleDateString('pt-BR') || '';
-    document.getElementById('servico-hora').textContent = servico.hora || '';
-    document.getElementById('servico-descricao').textContent = servico.descricao || '';
+    document.getElementById('cliente-nome').textContent = servico.cliente || 'João Silva';
+    document.getElementById('servico-data').textContent = (servico.data) || '09/06/2025';
+    document.getElementById('servico-hora').textContent = servico.hora || '14:00';
+    document.getElementById('servico-descricao').textContent = servico.descricao || 'Instalação de prateleiras em apartamento';
 
     // Avaliação por estrelas
     let notaSelecionada = 0;

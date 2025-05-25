@@ -32,17 +32,17 @@
       <input type="text" id="input-localizacao" placeholder="Pesquise por um bairro, cidade..." />
 
       <h3>Especialidades</h3>
-      <form id="form-especialidades">
-        <label><input type="checkbox" value="Eletricista"> Eletricista</label>
-        <label><input type="checkbox" value="Encanador"> Encanador</label>
-        <label><input type="checkbox" value="Pintor de Obras"> Pintor de Obras</label>
-        <label><input type="checkbox" value="Marceneiro"> Marceneiro</label>
-        <label><input type="checkbox" value="Cabeleireiro(a)"> Cabeleireiro(a)</label>
-        <label><input type="checkbox" value="Manicure e Pedicure"> Manicure e Pedicure</label>
-        <label><input type="checkbox" value="Desenvolvedor Web"> Desenvolvedor Web</label>
-        <!-- Adicione outras especialidades conforme necessário -->
-        <button type="submit">Filtrar</button>
-      </form>
+      <form id="form-especialidades" class="checkbox-lista">
+  <label><input type="checkbox" value="Eletricista"> Eletricista</label>
+  <label><input type="checkbox" value="Encanador"> Encanador</label>
+  <label><input type="checkbox" value="Pintor de Obras"> Pintor de Obras</label>
+  <label><input type="checkbox" value="Marceneiro"> Marceneiro</label>
+  <label><input type="checkbox" value="Cabeleireiro(a)"> Cabeleireiro(a)</label>
+  <label><input type="checkbox" value="Manicure e Pedicure"> Manicure e Pedicure</label>
+  <label><input type="checkbox" value="Desenvolvedor Web"> Desenvolvedor Web</label>
+  <button type="submit">Filtrar</button>
+</form>
+
     </aside>
 
     <!-- Coluna direita -->
@@ -51,83 +51,164 @@
     </section>
   </main>
 
+  <!-- Modal Portfólio -->
+<div id="modal-portfolio" class="modal hidden">
+  <div class="modal-conteudo">
+    <h3>Portfólio</h3>
+    <p id="portfolio-descricao"></p>
+    <button onclick="fecharModalPortfolio()">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal Agenda -->
+<div id="modal-agenda" class="modal hidden">
+  <div class="modal-conteudo">
+    <h3>Agendar Serviço com <span id="nome-prestador-agenda"></span></h3>
+    <form id="form-agendamento">
+      <label for="data-servico">Data:</label>
+      <input type="date" id="data-servico" required>
+
+      <label for="hora-servico">Horário:</label>
+      <input type="time" id="hora-servico" required>
+
+      <label for="descricao-servico">Descrição do Serviço:</label>
+      <textarea id="descricao-servico" rows="3" placeholder="Ex: instalação de tomadas" required></textarea>
+
+      <div class="modal-acoes">
+        <button type="submit">Confirmar Agendamento</button>
+        <button type="button" onclick="fecharModalAgenda()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
   <script>
-    const prestadores = [
-      {
-        nome: "Carlos da Silva",
-        especialidade: "Eletricista",
-        cidade: "São Paulo",
-        avaliacao: 4.5
-      },
-      {
-        nome: "Ana Souza",
-        especialidade: "Cabeleireiro(a)",
-        cidade: "Campinas",
-        avaliacao: 5.0
-      },
-      {
-        nome: "João Marques",
-        especialidade: "Marceneiro",
-        cidade: "Rio de Janeiro",
-        avaliacao: 4.0
-      }
-    ];
+  const prestadores = [
+    {
+      nome: "Carlos da Silva",
+      especialidade: "Eletricista",
+      cidade: "São Paulo",
+      avaliacao: 4.5
+    },
+    {
+      nome: "Ana Souza",
+      especialidade: "Cabeleireiro(a)",
+      cidade: "Campinas",
+      avaliacao: 5.0
+    },
+    {
+      nome: "João Marques",
+      especialidade: "Marceneiro",
+      cidade: "Rio de Janeiro",
+      avaliacao: 4.0
+    }
+  ];
 
-    function renderizarEstrelas(nota) {
-      const total = 5;
-      const cheias = Math.floor(nota);
-      const meia = nota % 1 >= 0.5 ? 1 : 0;
-      const vazias = total - cheias - meia;
-      return '★'.repeat(cheias) + '⯪'.repeat(meia) + '☆'.repeat(vazias);
+  const portfolioData = {
+    "Carlos da Silva": "Eletricista com 10 anos de experiência em instalações residenciais e comerciais.",
+    "Ana Souza": "Profissional em estética com 8 anos de atuação em salões renomados.",
+    "João Marques": "Marceneiro especializado em móveis sob medida há mais de 12 anos."
+  };
+
+  function renderizarEstrelas(nota) {
+    const total = 5;
+    const cheias = Math.floor(nota);
+    const meia = nota % 1 >= 0.5 ? 1 : 0;
+    const vazias = total - cheias - meia;
+    return '★'.repeat(cheias) + '⯪'.repeat(meia) + '☆'.repeat(vazias);
+  }
+
+  function renderizarPrestadores(lista) {
+    const container = document.getElementById('lista-prestadores');
+    container.innerHTML = '';
+
+    if (lista.length === 0) {
+      container.innerHTML = `
+        <div class="mensagem-vazia">
+          <p><strong>Nenhum prestador encontrado para os filtros selecionados.</strong></p>
+          <p>Tente buscar por outra especialidade ou localização.</p>
+        </div>
+      `;
+      return;
     }
 
-    function renderizarPrestadores(lista) {
-      const container = document.getElementById('lista-prestadores');
-      container.innerHTML = '';
-      lista.forEach(p => {
-        const card = document.createElement('div');
-        card.classList.add('card-prestador');
-        card.innerHTML = `
-          <h3>${p.nome}</h3>
-          <p><strong>Especialidade:</strong> ${p.especialidade}</p>
-          <p><strong>Cidade:</strong> ${p.cidade}</p>
-          <p><strong>Avaliação:</strong> <span class="estrelas">${renderizarEstrelas(p.avaliacao)}</span> (${p.avaliacao.toFixed(1)})</p>
-          <div class="acoes-card">
-            <button onclick="abrirAgenda('${p.nome}')">Agenda</button>
-            <button onclick="abrirPortfolio('${p.nome}')">Portfólio</button>
-            <button onclick="iniciarConversa('${p.nome}')">Conversar</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
+    lista.forEach(p => {
+      const card = document.createElement('div');
+      card.classList.add('card-prestador');
+      card.innerHTML = `
+        <h3>${p.nome}</h3>
+        <p><strong>Especialidade:</strong> ${p.especialidade}</p>
+        <p><strong>Cidade:</strong> ${p.cidade}</p>
+        <p><strong>Avaliação:</strong> <span class="estrelas">${renderizarEstrelas(p.avaliacao)}</span> (${p.avaliacao.toFixed(1)})</p>
+        <div class="acoes-card">
+          <button onclick="abrirAgenda('${p.nome}')">Agenda</button>
+          <button onclick="abrirPortfolio('${p.nome}')">Portfólio</button>
+          <button onclick="iniciarConversa('${p.nome}')">Conversar</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
 
-    function abrirAgenda(nome) {
-      alert(`Abrindo agenda de ${nome}...`);
-    }
+  function abrirAgenda(nome) {
+    document.getElementById('nome-prestador-agenda').textContent = nome;
+    document.getElementById('modal-agenda').classList.remove('hidden');
+  }
 
-    function abrirPortfolio(nome) {
-      alert(`Exibindo portfólio de ${nome}...`);
-    }
+  function fecharModalAgenda() {
+    document.getElementById('modal-agenda').classList.add('hidden');
+    document.getElementById('form-agendamento').reset();
+  }
 
-    function iniciarConversa(nome) {
-      window.location.href = "conversas.html?prestador=" + encodeURIComponent(nome);
-    }
+  document.getElementById('form-agendamento').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    // Filtrar por especialidades
-    document.getElementById('form-especialidades').addEventListener('submit', e => {
-      e.preventDefault();
-      const selecionadas = Array.from(document.querySelectorAll('#form-especialidades input:checked'))
-        .map(input => input.value);
-      const filtrados = selecionadas.length > 0
-        ? prestadores.filter(p => selecionadas.includes(p.especialidade))
-        : prestadores;
-      renderizarPrestadores(filtrados);
+    const nome = document.getElementById('nome-prestador-agenda').textContent;
+    const data = document.getElementById('data-servico').value;
+    const hora = document.getElementById('hora-servico').value;
+    const descricao = document.getElementById('descricao-servico').value;
+
+    alert(`Serviço agendado com ${nome}\nData: ${data}\nHora: ${hora}\nDescrição: ${descricao}`);
+
+    fecharModalAgenda();
+  });
+
+  function abrirPortfolio(nome) {
+    const descricao = portfolioData[nome] || "Este prestador ainda não adicionou um portfólio.";
+    document.getElementById('portfolio-descricao').textContent = descricao;
+    document.getElementById('modal-portfolio').classList.remove('hidden');
+  }
+
+  function fecharModalPortfolio() {
+    document.getElementById('modal-portfolio').classList.add('hidden');
+  }
+
+  function iniciarConversa(nome) {
+    window.location.href = "conversas.html?prestador=" + encodeURIComponent(nome);
+  }
+
+  // Filtro por especialidade + localização
+  document.getElementById('form-especialidades').addEventListener('submit', e => {
+    e.preventDefault();
+
+    const selecionadas = Array.from(document.querySelectorAll('#form-especialidades input:checked'))
+      .map(input => input.value.toLowerCase());
+
+    const localizacao = document.getElementById('input-localizacao').value.trim().toLowerCase();
+
+    const filtrados = prestadores.filter(p => {
+      const matchEspecialidade = selecionadas.length === 0 || selecionadas.includes(p.especialidade.toLowerCase());
+      const matchLocal = localizacao === '' || p.cidade.toLowerCase().includes(localizacao);
+      return matchEspecialidade && matchLocal;
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      renderizarPrestadores(prestadores);
-    });
-  </script>
+    renderizarPrestadores(filtrados);
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    renderizarPrestadores(prestadores);
+  });
+</script>
+
 </body>
 </html>
