@@ -47,11 +47,24 @@
       <div class="carrossel">
         <button class="prev">&#10094;</button>
         <div class="carrossel-items">
-          <div class="item"><img src="https://via.placeholder.com/200x120?text=Contador"><p class="especialidade-link">Contador</p></div>
-          <div class="item"><img src="https://via.placeholder.com/200x120?text=Eletricista"><p class="especialidade-link">Eletricista</p></div>
-          <div class="item"><img src="https://via.placeholder.com/200x120?text=Encanador"><p class="especialidade-link">Encanador</p></div>
-          <div class="item"><img src="https://via.placeholder.com/200x120?text=Pintor"><p class="especialidade-link">Pintor</p></div>
-        </div>
+  <div class="item" onclick="buscarEspecialidade('Eletricista')">
+    <img src="img/Eletricista.png" alt="Eletricista">
+    <p class="especialidade-link">Eletricista</p>
+  </div>
+  <div class="item" onclick="buscarEspecialidade('Encanador')">
+    <img src="img/Encanador.png" alt="Encanador">
+    <p class="especialidade-link">Encanador</p>
+  </div>
+  <div class="item" onclick="buscarEspecialidade('Pintor de Obras')">
+    <img src="img/Pintor.png" alt="Pintor de Obras">
+    <p class="especialidade-link">Pintor de Obras</p>
+  </div>
+  <div class="item" onclick="buscarEspecialidade('Marceneiro')">
+    <img src="img/Marceneiro.png" alt="Marceneiro">
+    <p class="especialidade-link">Marceneiro</p>
+  </div>
+</div>
+
         <button class="next">&#10095;</button>
       </div>
     </div>
@@ -176,6 +189,11 @@
         window.location.href = `busca.html?especialidade=${encodeURIComponent(especialidade)}`;
       });
     });
+
+    function buscarEspecialidade(especialidade) {
+  window.location.href = `busca.html?especialidade=${encodeURIComponent(especialidade)}`;
+}
+
   </script>
 </body>
 </html>
